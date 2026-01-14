@@ -1,0 +1,46 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 14/01/2026 16:16:07
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : task 3 
+00000000                             3  * Written by : kobi bourne 
+00000000                             4  * Date       : 14/01/2026
+00000000                             5  * Description: task 3 
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000  123C 0064                 11      MOVE.B #$64, D1
+00001004                            12  
+00001004  43F9 00001016             13      LEA text, A1 
+0000100A                            14  
+0000100A  303C 000E                 15      MOVE #14, D0
+0000100E                            16  
+0000100E  4E4F                      17      TRAP #15
+00001010                            18  
+00001010  303C 0003                 19      MOVE #3, D0
+00001014                            20  
+00001014  4E4F                      21      TRAP #15
+00001016                            22  
+00001016                            23      SIMHALT:
+00001016                            24  
+00001016= 44 61 74 61 20 52 ...     25      text:   dc.b 'Data Register: ', 0
+00001026                            26  
+00001026  FFFF FFFF                 27      SIMHALT             ; halt simulator
+0000102A                            28  
+0000102A                            29  * Put variables and constants here
+0000102A                            30  
+0000102A                            31      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+SIMHALT             1016
+START               1000
+TEXT                1016
