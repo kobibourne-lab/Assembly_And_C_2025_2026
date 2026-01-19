@@ -1,0 +1,56 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 19/01/2026 16:46:35
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :pract 2 part 4
+00000000                             3  * Written by : kobi bourne
+00000000                             4  * Date       :19/01/2026
+00000000                             5  * Description:pract 2 part 4 
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000                            11  
+00001000  21FC 00000005 2000        12      MOVE.L  #%101,  $2000  ;copy binary-val into REG-D0 
+00001008  31FC 0120 2000            13      MOVE.W  #$120,  $2000  ;copy hex-val into REG-D1   all long(32bits)
+0000100E  11FC 0064 2000            14      MOVE.B  #100,   $2000  ;copy dec-val into REG-D2
+00001014  21FC 0000005A 2010        15      MOVE.L  #90,    $2010  ;copy dec-val into mem-add 3010  MOVING DATA TO MEMORY
+0000101C  31FC 0121 2010            16      MOVE.W  #$121,  $2010  ;copy hex-val into mem-add 3020 all word(16bits)
+00001022  11FC 000A 2010            17      MOVE.B  #%1010, $2010  ;copy binary-val into mem-add 3000
+00001028  21FC 0000006F 2020        18      MOVE.L  #111,   $2020  ;copy dec-val into mem-add 3010
+00001030  31FC 0111 2020            19      MOVE.W  #$111,  $2020  ;copy hex-val into mem-add 3020 all word(16bits)
+00001036  11FC 0007 2020            20      MOVE.B  #%111,  $2020  ;copy binary-val into mem-add 3000
+0000103C                            21      
+0000103C                            22      
+0000103C  2038 2000                 23      MOVE.L  $2000, D0   
+00001040  3238 2010                 24      MOVE.W  $2010, D1     
+00001044  1438 2020                 25      MOVE.B  $2020, D2
+00001048                            26      
+00001048  21F8 2000 3000            27      MOVE.L  $2000, $3000   
+0000104E  31F8 2000 3010            28      MOVE.W  $2000, $3010       
+00001054  11F8 2000 3020            29      MOVE.B  $2000, $3020  
+0000105A                            30      
+0000105A  760A                      31      MOVE.L  #%1010, D3   
+0000105C  383C 0076                 32      MOVE.W  #$76, D4     
+00001060  1A3C 0017                 33      MOVE.B  #23, D5
+00001064                            34      
+00001064                            35      
+00001064                            36  
+00001064                            37     
+00001064                            38  
+00001064  FFFF FFFF                 39      SIMHALT             ; halt simulator
+00001068                            40  
+00001068                            41  * Put variables and constants here
+00001068                            42  
+00001068                            43      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+START               1000

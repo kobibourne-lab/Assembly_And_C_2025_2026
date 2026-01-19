@@ -1,0 +1,45 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 19/01/2026 16:23:04
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :pract 2 part 3
+00000000                             3  * Written by : kobi bourne
+00000000                             4  * Date       :19/01/2026
+00000000                             5  * Description:pract 2 part 3 
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000                            11  
+00001000  7004                      12      MOVE.L  #%100,  D0  ;copy binary-val into REG-D0 
+00001002  223C 00000100             13      MOVE.L  #$100,  D1  ;copy hex-val into REG-D1   all long(32bits)
+00001008  7464                      14      MOVE.L  #100,   D2  ;copy dec-val into REG-D2
+0000100A                            15      
+0000100A  21C0 3000                 16      MOVE.L  D0, $3000   ;copy contents of D0 into mem-add 3000
+0000100E  21C1 3010                 17      MOVE.L  D1, $3010   ;copy contents of D1 into mem-add 3010  all long(32bits)
+00001012  21C2 3020                 18      MOVE.L  D2, $3020   ;copy contents of D2 into mem-add 3020
+00001016                            19      
+00001016  31FC 0064 3020            20      MOVE.W  #100,   $3020  ;copy dec-val into mem-add 3010
+0000101C  31FC 0100 3010            21      MOVE.W  #$100,  $3010  ;copy hex-val into mem-add 3020 all word(16bits)
+00001022  31FC 0004 3000            22      MOVE.W  #%100,  $3000  ;copy binary-val into mem-add 3000
+00001028                            23  
+00001028  11FC 0064 3020            24      MOVE.B  #100,  $3020  ;copy DEC-val into mem-add 3020    
+0000102E  11FC 0064 3010            25      MOVE.B  #$64,  $3010  ;copy HEX-val into mem-add 3010   all byte(8bits)
+00001034  11FC 008F 3000            26      MOVE.B  #%10001111,  $3000  ;copy binary-val into mem-add 3000
+0000103A                            27  
+0000103A  FFFF FFFF                 28      SIMHALT             ; halt simulator
+0000103E                            29  
+0000103E                            30  * Put variables and constants here
+0000103E                            31  
+0000103E                            32      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+START               1000
