@@ -1,0 +1,34 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 26/01/2026 17:35:22
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :pract 3 part 2
+00000000                             3  * Written by :Kobi Bourne
+00000000                             4  * Date       :26/01/2026
+00000000                             5  * Description:show add-reg storing address not contents/values
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000                            11  
+00001000  45F8 4000                 12      LEA $4000, A2       ;loads address $4000 into Add reg A2
+00001004  14BC 0064                 13      MOVE.B #100, (A2)   ;copy (B-4Bits )decimal-val 100(64Hex) into the address stored in A1 - $4000
+00001008  0412 000A                 14      SUB.B #10, (A2)    
+0000100C                            15   
+0000100C                            16  
+0000100C  FFFF FFFF                 17      SIMHALT             ; halt simulator
+00001010                            18  
+00001010                            19  * Put variables and constants here
+00001010                            20  
+00001010                            21      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+START               1000
