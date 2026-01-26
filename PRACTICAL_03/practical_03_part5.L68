@@ -1,0 +1,52 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 26/01/2026 22:23:17
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :pract 3 part 5
+00000000                             3  * Written by :Kobi Bourne
+00000000                             4  * Date       :26/01/2026
+00000000                             5  * Description:show an Array and traversing an Array.
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000                            11  
+00001000  227C 00001020             12      MOVEA.L #ACHIEVEMENT_POINTS, A1 ;cpoy add of ACH. into A1
+00001006  7000                      13      MOVE.L  #0, D0                  ;copy 0 into D0
+00001008                            14      
+00001008  2419                      15      MOVE.L  (A1)+, D2               ;copy val at add in A1(5) into D0, + = move to next val sddress
+0000100A  D082                      16      ADD.L   D2, D0                  ;ADD values at D2 TO D0 , D0 = 5 D2 = 5 
+0000100C                            17      
+0000100C  2419                      18      MOVE.L  (A1)+, D2               ;copy val at add in A1(A) into D0, + = move to next val sddress
+0000100E  D082                      19      ADD.L   D2, D0                  ;ADD values at D2 TO D0 , D0 = F D2 = A 
+00001010                            20      
+00001010  2419                      21      MOVE.L  (A1)+, D2               ;copy val at add in A1(F) into D0, + = move to next val sddress
+00001012  D082                      22      ADD.L   D2, D0                  ;ADD values at D2 TO D0 , D0 = 1E D2 = F 
+00001014                            23      
+00001014  2419                      24      MOVE.L  (A1)+, D2               ;copy val at add in A1(14) into D0, + = move to next val sddress
+00001016  D082                      25      ADD.L   D2, D0                  ;ADD values at D2 TO D0 , D0 = 32  D2 = 14 
+00001018                            26                                      
+00001018  2419                      27      MOVE.L  (A1)+, D2               ;copy val at add in A1(1E) into D0, + = move to next val sddress
+0000101A  D082                      28      ADD.L   D2, D0                  ;ADD values at D2 TO D0 , D0 = 50 D2 =  1E    
+0000101C                            29                                      ;D2 = each array element, stepped through
+0000101C                            30      
+0000101C                            31      
+0000101C                            32  
+0000101C  FFFF FFFF                 33      SIMHALT             ; halt simulator
+00001020                            34  
+00001020                            35  * Put variables and constants here
+00001020= 00000005 0000000A ...     36  ACHIEVEMENT_POINTS:   DC.L  5, 10, 15, 20, 30
+00001034                            37  
+00001034                            38      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ACHIEVEMENT_POINTS  1020
+START               1000
