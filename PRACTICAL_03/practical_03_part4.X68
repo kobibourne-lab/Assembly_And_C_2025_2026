@@ -2,7 +2,7 @@
 * Title      :pract 3 part 4
 * Written by :Kobi Bourne
 * Date       :26/01/2026
-* Description:show subtraction of HEALTH val, stored in A3
+* Description:show data moving in a regs and altering values within the stored add , in a game setting
 *-----------------------------------------------------------
     ORG    $1000
 START:                  ; first instruction of program
@@ -11,7 +11,7 @@ START:                  ; first instruction of program
 
 
     LEA PLAYERHP, A0       ;loads address of PLAYERHP into Add reg A0
-    MOVE.B  #$64, (A0)     ;copy(L-32Bits) hex-val $64 to the address stored in A0  
+    MOVE.B  #$64, (A0)     ;copy(B-8Bits) hex-val $64 to the address stored in A0  
                            ;sets player health to 100!!
     LEA PLAYERXP, A1       ;loads address of PLAYERXP into Add reg A1
     MOVE.B   #%101, (A1)
@@ -84,3 +84,4 @@ BOSSPOSY  dc.w    $0
 *~Font size~10~
 *~Tab type~1~
 *~Tab size~4~
+
