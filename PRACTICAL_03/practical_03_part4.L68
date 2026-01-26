@@ -1,0 +1,101 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 26/01/2026 21:47:07
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :pract 3 part 4
+00000000                             3  * Written by :Kobi Bourne
+00000000                             4  * Date       :26/01/2026
+00000000                             5  * Description:show subtraction of HEALTH val, stored in A3
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000                            11  
+00001000                            12  
+00001000  41F9 000010A8             13      LEA PLAYERHP, A0       ;loads address of PLAYERHP into Add reg A0
+00001006  10BC 0064                 14      MOVE.B  #$64, (A0)     ;copy(L-32Bits) hex-val $64 to the address stored in A0  
+0000100A                            15                             ;sets player health to 100!!
+0000100A  43F9 000010A9             16      LEA PLAYERXP, A1       ;loads address of PLAYERXP into Add reg A1
+00001010  12BC 0005                 17      MOVE.B   #%101, (A1)
+00001014                            18                             ;sets player xp to 5!!
+00001014  45F9 000010AA             19      LEA PLAYERPOSX, A2
+0000101A  34BC 000A                 20      MOVE.W   #10, (A2)
+0000101E                            21                             ;sets player pos(x) to 10!!
+0000101E  47F9 000010AC             22      LEA PLAYERPOSY, A3
+00001024  36BC 0015                 23      MOVE.W   #21, (A3)
+00001028                            24                             ;sets player pos(y) to 21!!      
+00001028  49F9 000010AE             25      LEA BOSSHP, A4         ;loads address of boss health into Add reg A4
+0000102E  28BC 000003E8             26      MOVE.L  #1000, (A4)      
+00001034                            27                             ;sets Boss health to 1000!! 
+00001034  4BF9 000010B2             28      LEA BOSSPOSX, A5
+0000103A  3ABC 0018                 29      MOVE.W   #24, (A5)
+0000103E                            30                             ;sets boss pos(x) to 24!!
+0000103E  4DF9 000010B4             31      LEA BOSSPOSY, A6
+00001044  3CBC 000B                 32      MOVE.W   #11, (A6)
+00001048                            33                             ;sets boss pos(y) to 11!!
+00001048                            34                            
+00001048                            35      
+00001048  45F9 000010AA             36      LEA PLAYERPOSX, A2
+0000104E  0652 000D                 37      ADD.W   #13, (A2)
+00001052                            38                             ;player moves!!
+00001052  47F9 000010AC             39      LEA PLAYERPOSY, A3
+00001058  0453 0009                 40      SUB.W   #9, (A3)
+0000105C                            41                             ;player moves close to boss!!
+0000105C                            42      
+0000105C  49F9 000010AE             43      LEA BOSSHP, A4
+00001062  0494 00000190             44      SUB.L  #400, (A4)
+00001068                            45                             ;player attcaks boss, boss health now #600
+00001068  43F9 000010A9             46      LEA PLAYERXP, A1
+0000106E  5A11                      47      ADD.B   #%101, (A1)
+00001070                            48                             ;player gains xp, now %1010
+00001070                            49                            
+00001070  41F9 000010A8             50      LEA PLAYERHP, A0
+00001076  0410 0047                 51      SUB.B   #$47, (A0)
+0000107A                            52                             ;boss counters, player health now #21
+0000107A  45F9 000010AA             53      LEA PLAYERPOSX, A2
+00001080  0452 000A                 54      SUB.W   #10, (A2)
+00001084                            55                             ;player moves!
+00001084  41F9 000010A8             56      LEA PLAYERHP, A0
+0000108A  0610 0047                 57      ADD.B   #$47, (A0)
+0000108E                            58                             ;player heals!! player health now #64               
+0000108E  4BF9 000010B2             59      LEA BOSSPOSX, A5
+00001094  0455 000A                 60      SUB.W   #10, (A5)
+00001098                            61                             ;boss moves to player!!                                             
+00001098  49F9 000010AE             62      LEA BOSSHP, A4
+0000109E  0494 00000258             63      SUB.L  #600, (A4)
+000010A4                            64                             ;player attcaks boss, boss health now #0, BOSS DEFEATED!!
+000010A4                            65          
+000010A4                            66                             
+000010A4                            67      
+000010A4                            68      
+000010A4                            69      
+000010A4                            70  
+000010A4  FFFF FFFF                 71      SIMHALT             ; halt simulator
+000010A8                            72  
+000010A8                            73  * Put variables and constants here
+000010A8= 00                        74  PLAYERHP  dc.b    $0 
+000010A9= 00                        75  PLAYERXP  dc.b    $0
+000010AA= 0000                      76  PLAYERPOSX  dc.w    $0
+000010AC= 0000                      77  PLAYERPOSY  dc.w    $0
+000010AE= 00000000                  78  BOSSHP  dc.l    $0
+000010B2= 0000                      79  BOSSPOSX  dc.w    $0
+000010B4= 0000                      80  BOSSPOSY  dc.w    $0
+000010B6                            81      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+BOSSHP              10AE
+BOSSPOSX            10B2
+BOSSPOSY            10B4
+PLAYERHP            10A8
+PLAYERPOSX          10AA
+PLAYERPOSY          10AC
+PLAYERXP            10A9
+START               1000
