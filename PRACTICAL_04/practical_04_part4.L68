@@ -1,0 +1,115 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 08/02/2026 15:33:35
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :PRACTICAL 4 part 4 
+00000000                             3  * Written by :Kobi Bourne
+00000000                             4  * Date       :04/02/26
+00000000                             5  * Description: task 4 
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000  41F9 00001092             11      LEA PLAYERHP, A0       ;loads address of PLAYERHP into Add reg A0
+00001006  10BC 0064                 12      MOVE.B  #$64, (A0)     ;copy(B-8Bits) hex-val $64 to the address stored in A0  
+0000100A                            13                             ;sets player health to 100!!
+0000100A  43F9 00001093             14      LEA PLAYERXP, A1       ;loads address of PLAYERXP into Add reg A1
+00001010  12BC 0005                 15      MOVE.B   #%101, (A1)
+00001014                            16                             ;sets player xp to 5!!
+00001014  45F9 00001094             17      LEA PLAYERPOSX, A2
+0000101A  34BC 000A                 18      MOVE.W   #10, (A2)
+0000101E                            19                             ;sets player pos(x) to 10!!
+0000101E  47F9 00001096             20      LEA PLAYERPOSY, A3
+00001024  36BC 0015                 21      MOVE.W   #21, (A3)
+00001028                            22                             ;sets player pos(y) to 21!!      
+00001028  49F9 00001098             23      LEA BOSSHP, A4         ;loads address of boss health into Add reg A4
+0000102E  28BC 000003E8             24      MOVE.L  #1000, (A4)      
+00001034                            25                             ;sets Boss health to 1000!! 
+00001034  4BF9 0000109C             26      LEA BOSSPOSX, A5
+0000103A  3ABC 0018                 27      MOVE.W   #24, (A5)
+0000103E                            28                             ;sets boss pos(x) to 24!!
+0000103E  4DF9 0000109E             29      LEA BOSSPOSY, A6
+00001044  3CBC 000B                 30      MOVE.W   #11, (A6)
+00001048                            31                             ;sets boss pos(y) to 11!!    
+00001048                            32  
+00001048                            33      ;Branch To TAKING_DAMAGE
+00001048  6100 0016                 34      BSR     TAKING_DAMAGE
+0000104C                            35      
+0000104C                            36  BACK_IN_THE_GAME:
+0000104C                            37      ;Lets Help this player out
+0000104C  6100 0018                 38      BSR     HEALTH_PICKUP
+00001050  6100 001A                 39      BSR     XP_PICKUP
+00001054  6100 0020                 40      BSR     BLOCK_PLAYER
+00001058  6100 0026                 41      BSR     CHANGE_Y
+0000105C  6000 002C                 42      BRA     GAME_END
+00001060                            43      
+00001060                            44  TAKING_DAMAGE:
+00001060                            45      ;Hit By NPC
+00001060  0410 0014                 46      SUB.B   #20, (A0)
+00001064  60E6                      47      BRA     BACK_IN_THE_GAME
+00001066                            48  
+00001066                            49  HEALTH_PICKUP:
+00001066                            50      ;Pickup Health Found
+00001066  0610 000A                 51      ADD.B   #10, (A0)
+0000106A  4E75                      52      RTS
+0000106C                            53      
+0000106C                            54  XP_PICKUP:
+0000106C  1011                      55          MOVE.B  (A1), D0        ;load XP into data register
+0000106E  803C 0001                 56          OR.B    #1, D0          ;player +1 XP bonus
+00001072  1280                      57          MOVE.B  D0, (A1)        ;store XP in add reg
+00001074  4E75                      58          RTS
+00001076                            59  
+00001076                            60  BLOCK_PLAYER:
+00001076  3012                      61          MOVE.W  (A2), D0        ; load X position
+00001078  C07C 000F                 62          AND.W   #15, D0         ; AND: limit X position (0–15)
+0000107C  3480                      63          MOVE.W  D0, (A2)        ;store X pos in a2
+0000107E  4E75                      64          RTS
+00001080                            65  
+00001080                            66  CHANGE_Y:
+00001080  3013                      67          MOVE.W  (A3), D0        ;COPY Y pos to data reg 
+00001082  0A40 0001                 68          EOR.W   #1, D0          ;CHANGE Y pos
+00001086  3680                      69          MOVE.W  D0, (A3)        ;store Y pos A3
+00001088  4E75                      70          RTS
+0000108A                            71      
+0000108A                            72  GAME_END:
+0000108A                            73      ;Game Over
+0000108A  10BC 0000                 74      MOVE.B #$00, (A0)
+0000108E                            75      
+0000108E                            76      
+0000108E  FFFF FFFF                 77      SIMHALT             ; halt simulator
+00001092                            78  
+00001092                            79  * Put variables and constants here
+00001092= 00                        80  PLAYERHP  dc.b    $0 
+00001093= 00                        81  PLAYERXP  dc.b    $0
+00001094= 0000                      82  PLAYERPOSX  dc.w    $0
+00001096= 0000                      83  PLAYERPOSY  dc.w    $0
+00001098= 00000000                  84  BOSSHP  dc.l    $0
+0000109C= 0000                      85  BOSSPOSX  dc.w    $0
+0000109E= 0000                      86  BOSSPOSY  dc.w    $0
+000010A0                            87  
+000010A0                            88      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+BACK_IN_THE_GAME    104C
+BLOCK_PLAYER        1076
+BOSSHP              1098
+BOSSPOSX            109C
+BOSSPOSY            109E
+CHANGE_Y            1080
+GAME_END            108A
+HEALTH_PICKUP       1066
+PLAYERHP            1092
+PLAYERPOSX          1094
+PLAYERPOSY          1096
+PLAYERXP            1093
+START               1000
+TAKING_DAMAGE       1060
+XP_PICKUP           106C

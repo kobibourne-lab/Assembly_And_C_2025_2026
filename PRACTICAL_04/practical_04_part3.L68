@@ -1,0 +1,100 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 04/02/2026 16:39:15
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :PRACTICAL 4 part 4 
+00000000                             3  * Written by :Kobi Bourne
+00000000                             4  * Date       :04/02/26
+00000000                             5  * Description: 
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+Line 11 ERROR: Invalid addressing mode
+00001000                            11      LEA PLAYERHP, D2
+00001000  11FC 0064 3000            12      MOVE.B  #$64,   $3000
+Line 13 ERROR: Invalid addressing mode
+00001006                            13      LEA $3000, D2
+00001006                            14      
+Line 15 ERROR: Invalid addressing mode
+00001006                            15      LEA PLAYERXP, $3100
+00001006  11FC 0032 3100            16      MOVE.B  #50, $3100
+0000100C                            17     
+0000100C                            18      
+0000100C  41F9 0000105E             19      LEA PLAYERPOSX, A0
+00001012  30BC 000F                 20      MOVE.W   #15, (A0)
+00001016                            21                             ;sets player pos x to 15 and y to 20 
+00001016  43F9 00001060             22      LEA PLAYERPOSY, A1
+0000101C  32BC 0014                 23      MOVE.W   #20, (A1)
+00001020                            24      
+00001020                            25      
+Line 26 ERROR: Invalid addressing mode
+00001020                            26      LEA BOSSHP, $2000
+00001020  21FC 000003E8 2000        27      MOVE.L  #1000, $2000
+Line 28 ERROR: Invalid addressing mode
+00001028                            28      LEA $2000, D3
+00001028                            29      
+00001028  45F9 00001066             30      LEA BOSSPOSX, A2
+0000102E  34BC 0018                 31      MOVE.W   #24, (A2)
+00001032                            32                             ;sets boss pos x to 25 and y to 30!!
+00001032  47F9 00001068             33      LEA BOSSPOSY, A3
+00001038  36BC 000B                 34      MOVE.W   #11, (A3)
+0000103C                            35      
+0000103C                            36      ;Branch To TAKING_DAMAGE
+0000103C  6100 000A                 37      BSR     TAKING_DAMAGE
+00001040                            38      
+00001040                            39  BACK_IN_THE_GAME:
+00001040                            40      ;Lets Help this player out
+00001040  6100 000C                 41      BSR     HEALTH_PICKUP
+00001044  6000 000E                 42      BRA     GAME_END
+00001048                            43      
+00001048                            44  TAKING_DAMAGE:
+00001048                            45      ;Hit By NPC
+00001048                            46      ;Non Player Character
+00001048  0411 0014                 47      SUB.B   #20, (A1)
+0000104C  60F2                      48      BRA     BACK_IN_THE_GAME
+0000104E                            49  
+0000104E                            50  HEALTH_PICKUP:
+0000104E                            51      ;Pickup Health Found
+0000104E  0611 000A                 52      ADD.B   #10, (A1)
+00001052  4E75                      53      RTS
+00001054                            54      
+00001054                            55  GAME_END:
+00001054                            56      ;Game Over
+00001054  12BC 0000                 57      MOVE.B #$00, (A1)
+00001058                            58      
+00001058                            59      
+00001058  FFFF FFFF                 60      SIMHALT             ; halt simulator
+0000105C                            61  
+0000105C                            62  * Put variables and constants here
+0000105C= 00                        63  PLAYERHP  dc.b    $0 
+0000105D= 00                        64  PLAYERXP  dc.b    $0
+0000105E= 0000                      65  PLAYERPOSX  dc.w    $0
+00001060= 0000                      66  PLAYERPOSY  dc.w    $0
+00001062= 00000000                  67  BOSSHP  dc.l    $0
+00001066= 0000                      68  BOSSPOSX  dc.w    $0
+00001068= 0000                      69  BOSSPOSY  dc.w    $0
+0000106A                            70  
+0000106A                            71      END    START        ; last line of source
+
+5 errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+BACK_IN_THE_GAME    1040
+BOSSHP              1062
+BOSSPOSX            1066
+BOSSPOSY            1068
+GAME_END            1054
+HEALTH_PICKUP       104E
+PLAYERHP            105C
+PLAYERPOSX          105E
+PLAYERPOSY          1060
+PLAYERXP            105D
+START               1000
+TAKING_DAMAGE       1048
