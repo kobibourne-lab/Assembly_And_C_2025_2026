@@ -38,7 +38,7 @@ BACK_IN_THE_GAME:
     ;Lets Help this player out
     BSR     HEALTH_PICKUP
     BSR     SHIELD_PICKUP
-    BSR     SHIELD_OFF:
+    BSR     SHIELD_OFF
     BSR     DODGE
     BRA     GAME_END
     
@@ -102,3 +102,4 @@ BOSSPOSY  dc.w    $0
 *~Font size~10~
 *~Tab type~1~
 *~Tab size~4~
+
