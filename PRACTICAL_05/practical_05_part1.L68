@@ -1,0 +1,51 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 10/02/2026 20:13:11
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :PRACTICAL 5 PT 1 
+00000000                             3  * Written by :Kobi Bourne
+00000000                             4  * Date       :09/02/2026
+00000000                             5  * Description:part 1
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000                            11  
+00001000                            12  
+00001000                            13  INITIALISE:
+00001000  103C 0003                 14      MOVE.B #3, D0
+00001004  123C 0000                 15      MOVE.B #0, D1
+00001008                            16  
+00001008                            17  GAME_LOOP:
+00001008  B03C 0001                 18      CMP.B #1, D0
+0000100C  6600 0006                 19      BNE GAME_POINTS
+00001010  6700 000C                 20      BEQ GAME_OVER
+00001014                            21     
+00001014                            22  GAME_POINTS:
+00001014  0601 000A                 23      ADD.B   #10, D1
+00001018  5300                      24      SUB.B   #1, D0
+0000101A  6000 0002                 25      BRA     GAME_OVER
+0000101E                            26  
+0000101E                            27  GAME_OVER:
+0000101E                            28  
+0000101E                            29  
+0000101E  FFFF FFFF                 30      SIMHALT             ; halt simulator
+00001022                            31  
+00001022                            32  * Put variables and constants here
+00001022                            33  
+00001022                            34      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+GAME_LOOP           1008
+GAME_OVER           101E
+GAME_POINTS         1014
+INITIALISE          1000
+START               1000
