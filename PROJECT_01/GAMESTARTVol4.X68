@@ -403,7 +403,7 @@ HUD_LINE:   DC.B    'ONWARD'
 ROOM_MSG:   DC.B    'ROOM: ',0
 HEALTH_MSG: DC.B    ' | HEALTH: ',0
 MOVE_MSG:   DC.B    'Press any key to venture into the cave: ', $0D,$0A,0 ;needs an input added 
-ENTER_MSG:  DC.B    'It appears that there is a many rooms ahead!'
+ENTER_MSG:  DC.B    $0D,$0A,'It appears that there is a many rooms ahead!'
             DC.B    $0D,$0A
             DC.B    'Time to explore!!', $0D,$0A, 0
 
