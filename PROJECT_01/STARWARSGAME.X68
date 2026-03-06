@@ -129,8 +129,12 @@ CHECK_ROOM_3:
     CMP.B #3,D1
     BNE CHECK_ROOM_4
     CMP.B #1,CHOICE               ;NEXT ROOMS ARE ALL SAME LOGIC WITH DIFFERENT EVENT OPTIONS(BAR 10)
-    BEQ RIDDLE
+     BEQ DO_RIDDLE
     BSR POWER_ROOM
+    RTS
+
+DO_RIDDLE:
+    BSR RIDDLE
     RTS
 
 ;---------------- ROOM 4 ---------------- 
@@ -285,6 +289,7 @@ RIDDLE_FAIL:
     SUB.B   #10,HEALTH         ;SUB 10 FROM HEALTH 
     BRA     RIDDLE             ;LOOP TILL CORRECT - BUG - AS SOON AS HEALTH = 0 SHUD STOP
                                ;CURRENTLY WAITS TILL WE GET ANSWER RIGHT, THEN STOPS             
+
     
 RIDDLE2:                       ;RIDDLE 2 - SAME AS RIDDLE 1 JUST DIFFERENT MSG
     LEA     RIDDLE2_MSG,A1
@@ -293,8 +298,19 @@ RIDDLE2:                       ;RIDDLE 2 - SAME AS RIDDLE 1 JUST DIFFERENT MSG
     MOVE.B  #4,D0              
     TRAP    #15
     CMP.B   #2,D1              
-    BNE     RIDDLE_FAIL
+    BNE     RIDDLE2_FAIL
     RTS
+    
+    
+RIDDLE2_FAIL:
+    LEA     FAIL_MSG,A1        ;LOAD FAIL MESSAGE ADD INTO A1 
+    MOVE.B  #14,D0             ;PRINT WHATS IN A1
+    TRAP    #15                ;PRINT 
+    SUB.B   #10,HEALTH         ;SUB 10 FROM HEALTH 
+    BRA     RIDDLE2
+    
+
+
 
 *-------------------------------------------------------
 *----------------MOVE------------------
@@ -389,7 +405,6 @@ INTRO:      DC.B    '-----------------------------------------------'
             DC.B    $0D,$0A
             DC.B    '-----------------------------------------------'
             DC.B    $0D,$0A,0
-                    
 CHAR_MSG:   DC.B    'Choose Path: 1. Jedi (High HP) | 2. Sith (High Power): ', $0D,$0A,0
 JEDI_MSG:   DC.B    'YOU CHOOSE THE LIGHT SIDE!! I KNEW YOU LIKED THE HIGH GROUND ', $0D,$0A,0
 SITH_MSG:   DC.B    'YOU CHOOSE THE DARK SIDE!! UNLIMITED POWER ', $0D,$0A,0
