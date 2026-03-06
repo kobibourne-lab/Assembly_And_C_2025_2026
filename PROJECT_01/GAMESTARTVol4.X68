@@ -90,7 +90,7 @@ GAME_LOOP:
     
     
     MOVE.B  ROOM_NUM,D1
-    CMP.B   #8,D1           ;IF WIN(ROOM = 5)
+    CMP.B   #10,D1           ;IF WIN(ROOM = 5)
     BEQ     WIN             ;BRANCH TO WIN
 
     BSR     MOVE               ;PATH
@@ -138,7 +138,7 @@ CHECK_ROOM_4:
     RTS
 
 ;---------------- ROOM 5 ---------------- 
-CHECK_ROOM_5
+CHECK_ROOM_5:
     CMP.B #5,D1
     BNE CHECK_ROOM_6
     CMP.B #1,CHOICE
@@ -160,21 +160,41 @@ CHECK_ROOM_7:
     CMP.B #7,D1
     BNE CHECK_ROOM_8
     CMP.B #1,CHOICE
-    BEQ HEAL_ROOM
-    BSR ENEMY2
+    BEQ TRAP_ROOM
+    BSR POWER_ROOM
     RTS
     
 ;---------------- ROOM 8 ---------------- 
 CHECK_ROOM_8:
     CMP.B #8,D1
-    BNE ROOMS_END
+    BNE CHECK_ROOM_9
     CMP.B #1,CHOICE
     BEQ HEAL_ROOM
-    BSR SAFE_ROOM
+    BSR ENEMY2
+    RTS
+    
+;---------------- ROOM 9 ---------------- 
+CHECK_ROOM_9:
+    CMP.B #9,D1
+    BNE CHECK_ROOM_10
+    CMP.B #1,CHOICE
+    BEQ TRAP_ROOM
+    BSR POSION_ROOM
+    RTS
+    
+;---------------- ROOM 10 ---------------- 
+CHECK_ROOM_10:
+    CMP.B #10,D1
+    BNE ROOMS_END
     RTS
 
 ROOMS_END:
     RTS
+    
+    
+*-------------------------------------------------------
+*----------------ROOM STATS -------------------------
+*------------------------------------------------------- 
     
 TRAP_ROOM:                  ;FOR TRAP
     LEA     TRAP_MSG,A1   
@@ -231,7 +251,7 @@ CHOICE_VALID:
     CMP.B   #2,D1
     BGT     RANGE        ;IF > 2 , AGAIN
 
-    MOVE.B  D1,CHOICE       ; SAVE CHOICE
+    MOVE.B  D1,CHOICE       ; SAVE CHOICE FOR NEXT ROOM
     ADD.B   #1,ROOM_NUM        ; ADD 1 TO ROOM - MOVE TO NEXT RIOM 
     RTS
 
@@ -404,8 +424,8 @@ WOOKIE_MSG:  DC.B    $0D,$0A,'ITS THE ABOMINABLE WOOKIE!! You need 50 Power to d
 WIN_WOOKIE:  DC.B    $0D,$0A,'You aquired a new rug!!', $0D,$0A, 0
 HURT2_MSG:   DC.B    $0D,$0A,'YOU NEED MORE POWER! THE WOOKIE STEALS YOUR JACKET! -50 HP', $0D,$0A, 0
 
-RANGE_MSG: DC.B $0D,$0A,'Invalid choice! 1 or 2.', $0D,$0A,0
-WIN_MSG:    DC.B    'CONGRATULATOINS!! You have found the Kyber Crystal!'
+RANGE_MSG:  DC.B $0D,$0A,'Invalid choice! 1 or 2.', $0D,$0A,0
+WIN_MSG:    DC.B $0D,$0A,'CONGRATULATOINS!! You have found the Kyber Crystal!'
             DC.B    $0D,$0A
             DC.B    'You are now ready to bulit your lightsaber!', $0D,$0A, 0
 DEAD_MSG:   DC.B    'You have become one with the Force', $0D,$0A,0

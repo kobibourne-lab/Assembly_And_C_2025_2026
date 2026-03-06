@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.16.01
-Created On: 06/03/2026 03:34:03
+Created On: 06/03/2026 04:02:04
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      : Star wars 
@@ -27,12 +27,12 @@ Created On: 06/03/2026 03:34:03
 00001000                            23  START:
 00001000  6100 002A                 24      BSR     WELCOME             ;BRANCH TO WELCOME 
 00001004  6100 0034                 25      BSR     CHARACTER           ;BRANCH TO CHARACTER
-00001008  43F9 000014D6             26      LEA     MOVE_MSG,A1         ;MOVE CALLS INPUT - ANY KEY
+00001008  43F9 000014FA             26      LEA     MOVE_MSG,A1         ;MOVE CALLS INPUT - ANY KEY
 0000100E  103C 000E                 27      MOVE.B  #14,D0
 00001012  4E4F                      28      TRAP    #15
 00001014  103C 0002                 29      MOVE.B  #2,D0               ;WAIT FOR KEY PRESS 
 00001018  4E4F                      30      TRAP    #15
-0000101A  13FC 0001 0000134C        31      MOVE.B  #1,ROOM_NUM        ; START ROOM = 1
+0000101A  13FC 0001 00001370        31      MOVE.B  #1,ROOM_NUM        ; START ROOM = 1
 00001022                            32  
 00001022                            33  *GAME LOOP
 00001022                            34      ;ORG     $3000           ;THE REST OF THE PROGRAM IS TO BE LOCATED FROM 3000 ONWARDS - get rid 
@@ -52,7 +52,7 @@ Created On: 06/03/2026 03:34:03
 0000102C                            48  *-------------------WELCOME SUBROUTINE------------------
 0000102C                            49  *-------------------------------------------------------
 0000102C                            50  WELCOME:
-0000102C  43F9 00001351             51      LEA     INTRO,A1
+0000102C  43F9 00001375             51      LEA     INTRO,A1
 00001032  103C 000E                 52      MOVE.B  #14,D0
 00001036  4E4F                      53      TRAP    #15
 00001038  4E75                      54      RTS
@@ -62,7 +62,7 @@ Created On: 06/03/2026 03:34:03
 0000103A                            58  *----------------CHARACTER-------------------
 0000103A                            59  *------------------------------------------------------- 
 0000103A                            60  CHARACTER:
-0000103A  43F9 0000145C             61      LEA     CHAR_MSG,A1
+0000103A  43F9 00001480             61      LEA     CHAR_MSG,A1
 00001040  103C 000E                 62      MOVE.B  #14,D0
 00001044  4E4F                      63      TRAP    #15
 00001046  103C 0004                 64      MOVE.B  #4,D0
@@ -72,12 +72,12 @@ Created On: 06/03/2026 03:34:03
 00001050  6700 0014                 68      BEQ     JEDI               ;IF EQUAL BRANCH TO SET JEDI 
 00001054                            69                                 ;IF NOT SITH 
 00001054                            70  SITH:
-00001054  13FC 0028 0000134A        71      MOVE.B  #40,HEALTH
-0000105C  13FC 0064 0000134B        72      MOVE.B  #100,POWER
+00001054  13FC 0028 0000136E        71      MOVE.B  #40,HEALTH
+0000105C  13FC 0064 0000136F        72      MOVE.B  #100,POWER
 00001064  4E75                      73      RTS
 00001066                            74  JEDI:
-00001066  13FC 0046 0000134A        75      MOVE.B  #70,HEALTH
-0000106E  13FC 0032 0000134B        76      MOVE.B  #50,POWER
+00001066  13FC 0046 0000136E        75      MOVE.B  #70,HEALTH
+0000106E  13FC 0032 0000136F        76      MOVE.B  #50,POWER
 00001076  4E75                      77      RTS
 00001078                            78  
 00001078                            79  *-------------------------------------------------------
@@ -85,31 +85,31 @@ Created On: 06/03/2026 03:34:03
 00001078                            81  *------------------------------------------------------- 
 00001078                            82      
 00001078                            83  GAME_LOOP:
-00001078  6100 0272                 84      BSR     DISPLAY_HUD       ;REPEATS AT ENRTRY OF EVERY ROOM 
+00001078  6100 0296                 84      BSR     DISPLAY_HUD       ;REPEATS AT ENRTRY OF EVERY ROOM 
 0000107C  6100 0024                 85      BSR     ROOMS             ;TRAP/ENIMIES/HEAL 
 00001080                            86      
-00001080  1239 0000134A             87      MOVE.B  HEALTH,D1           ;MOVE HEALTH TO D1 
+00001080  1239 0000136E             87      MOVE.B  HEALTH,D1           ;MOVE HEALTH TO D1 
 00001086  B23C 0000                 88      CMP.B   #0,D1               ;IF HEALTH = 0
-0000108A  6F00 02AE                 89      BLE     DEAD                 ;BRANCH TO DEAD/ PLAYER DEAD
+0000108A  6F00 02D2                 89      BLE     DEAD                 ;BRANCH TO DEAD/ PLAYER DEAD
 0000108E                            90      
 0000108E                            91      
-0000108E  1239 0000134C             92      MOVE.B  ROOM_NUM,D1
-00001094  B23C 0008                 93      CMP.B   #8,D1           ;IF WIN(ROOM = 5)
-00001098  6700 0290                 94      BEQ     WIN             ;BRANCH TO WIN
+0000108E  1239 00001370             92      MOVE.B  ROOM_NUM,D1
+00001094  B23C 000A                 93      CMP.B   #10,D1           ;IF WIN(ROOM = 5)
+00001098  6700 02B4                 94      BEQ     WIN             ;BRANCH TO WIN
 0000109C                            95  
-0000109C  6100 0146                 96      BSR     MOVE               ;PATH
+0000109C  6100 016A                 96      BSR     MOVE               ;PATH
 000010A0  60D6                      97      BRA     GAME_LOOP          ;BACK TO START OF LOOP 
 000010A2                            98  
 000010A2                            99  *-------------------------------------------------------
 000010A2                           100  *----------------ROOMS + LOGIC -------------------------
 000010A2                           101  *------------------------------------------------------- 
 000010A2                           102  ROOMS:
-000010A2  1239 0000134C            103      MOVE.B ROOM_NUM,D1         ;CURRENT ROOM
+000010A2  1239 00001370            103      MOVE.B ROOM_NUM,D1         ;CURRENT ROOM
 000010A8                           104  
 000010A8                           105  ;---------------- ROOM 1 ----------------
 000010A8  B23C 0001                106      CMP.B #1,D1
 000010AC  6600 0010                107      BNE CHECK_ROOM_2
-000010B0  43F9 00001501            108      LEA     ENTER_MSG,A1
+000010B0  43F9 00001525            108      LEA     ENTER_MSG,A1
 000010B6  103C 000E                109      MOVE.B  #14,D0
 000010BA  4E4F                     110      TRAP    #15
 000010BC  4E75                     111      RTS
@@ -118,303 +118,323 @@ Created On: 06/03/2026 03:34:03
 000010BE                           114  CHECK_ROOM_2:
 000010BE  B23C 0002                115      CMP.B #2,D1
 000010C2  6600 0014                116      BNE CHECK_ROOM_3
-000010C6  0C39 0001 0000134D       117      CMP.B #1,CHOICE
-000010CE  6700 00A6                118      BEQ TRAP_ROOM
-000010D2  6100 0102                119      BSR SAFE_ROOM
+000010C6  0C39 0001 00001371       117      CMP.B #1,CHOICE
+000010CE  6700 00CA                118      BEQ TRAP_ROOM
+000010D2  6100 0126                119      BSR SAFE_ROOM
 000010D6  4E75                     120      RTS
 000010D8                           121  
 000010D8                           122  ;---------------- ROOM 3 ---------------- 
 000010D8                           123  CHECK_ROOM_3:
 000010D8  B23C 0003                124      CMP.B #3,D1
 000010DC  6600 0014                125      BNE CHECK_ROOM_4
-000010E0  0C39 0001 0000134D       126      CMP.B #1,CHOICE
-000010E8  6700 019E                127      BEQ RIDDLE
-000010EC  6100 00D2                128      BSR POWER_ROOM
+000010E0  0C39 0001 00001371       126      CMP.B #1,CHOICE
+000010E8  6700 01C2                127      BEQ RIDDLE
+000010EC  6100 00F6                128      BSR POWER_ROOM
 000010F0  4E75                     129      RTS
 000010F2                           130  
 000010F2                           131  ;---------------- ROOM 4 ---------------- 
 000010F2                           132  CHECK_ROOM_4:
 000010F2  B23C 0004                133      CMP.B #4,D1
 000010F6  6600 0014                134      BNE CHECK_ROOM_5
-000010FA  0C39 0001 0000134D       135      CMP.B #1,CHOICE
-00001102  6700 011E                136      BEQ ENEMY
-00001106  6100 0084                137      BSR POSION_ROOM
+000010FA  0C39 0001 00001371       135      CMP.B #1,CHOICE
+00001102  6700 0142                136      BEQ ENEMY
+00001106  6100 00A8                137      BSR POSION_ROOM
 0000110A  4E75                     138      RTS
 0000110C                           139  
 0000110C                           140  ;---------------- ROOM 5 ---------------- 
-0000110C                           141  CHECK_ROOM_5
+0000110C                           141  CHECK_ROOM_5:
 0000110C  B23C 0005                142      CMP.B #5,D1
 00001110  6600 0014                143      BNE CHECK_ROOM_6
-00001114  0C39 0001 0000134D       144      CMP.B #1,CHOICE
-0000111C  6700 008C                145      BEQ HEAL_ROOM
-00001120  6100 00B4                146      BSR SAFE_ROOM
+00001114  0C39 0001 00001371       144      CMP.B #1,CHOICE
+0000111C  6700 00B0                145      BEQ HEAL_ROOM
+00001120  6100 00D8                146      BSR SAFE_ROOM
 00001124  4E75                     147      RTS
 00001126                           148      
 00001126                           149  ;---------------- ROOM 6 ---------------- 
 00001126                           150  CHECK_ROOM_6:
 00001126  B23C 0006                151      CMP.B #6,D1
 0000112A  6600 0014                152      BNE CHECK_ROOM_7
-0000112E  0C39 0001 0000134D       153      CMP.B #1,CHOICE
-00001136  6700 0072                154      BEQ HEAL_ROOM
-0000113A  6100 017E                155      BSR RIDDLE2
+0000112E  0C39 0001 00001371       153      CMP.B #1,CHOICE
+00001136  6700 0096                154      BEQ HEAL_ROOM
+0000113A  6100 01A2                155      BSR RIDDLE2
 0000113E  4E75                     156      RTS
 00001140                           157      
 00001140                           158  ;---------------- ROOM 7 ---------------- 
 00001140                           159  CHECK_ROOM_7:
 00001140  B23C 0007                160      CMP.B #7,D1
 00001144  6600 0014                161      BNE CHECK_ROOM_8
-00001148  0C39 0001 0000134D       162      CMP.B #1,CHOICE
-00001150  6700 0058                163      BEQ HEAL_ROOM
-00001154  6100 00F4                164      BSR ENEMY2
+00001148  0C39 0001 00001371       162      CMP.B #1,CHOICE
+00001150  6700 0048                163      BEQ TRAP_ROOM
+00001154  6100 008E                164      BSR POWER_ROOM
 00001158  4E75                     165      RTS
 0000115A                           166      
 0000115A                           167  ;---------------- ROOM 8 ---------------- 
 0000115A                           168  CHECK_ROOM_8:
 0000115A  B23C 0008                169      CMP.B #8,D1
-0000115E  6600 0014                170      BNE ROOMS_END
-00001162  0C39 0001 0000134D       171      CMP.B #1,CHOICE
-0000116A  6700 003E                172      BEQ HEAL_ROOM
-0000116E  6100 0066                173      BSR SAFE_ROOM
+0000115E  6600 0014                170      BNE CHECK_ROOM_9
+00001162  0C39 0001 00001371       171      CMP.B #1,CHOICE
+0000116A  6700 0062                172      BEQ HEAL_ROOM
+0000116E  6100 00FE                173      BSR ENEMY2
 00001172  4E75                     174      RTS
-00001174                           175  
-00001174                           176  ROOMS_END:
-00001174  4E75                     177      RTS
-00001176                           178      
-00001176                           179  TRAP_ROOM:                  ;FOR TRAP
-00001176  43F9 0000156F            180      LEA     TRAP_MSG,A1   
-0000117C  103C 000E                181      MOVE.B  #14,D0
-00001180  4E4F                     182      TRAP    #15
-00001182  0439 0014 0000134A       183      SUB.B   #20,HEALTH         
-0000118A  4E75                     184      RTS
-0000118C                           185      
-0000118C                           186  POSION_ROOM:                  ;FOR TRAP
-0000118C  43F9 000015E0            187      LEA     POSION_MSG,A1   
-00001192  103C 000E                188      MOVE.B  #14,D0
-00001196  4E4F                     189      TRAP    #15
-00001198  0439 0014 0000134A       190      SUB.B   #20,HEALTH 
-000011A0  0439 000A 0000134B       191      SUB.B   #10,POWER        
-000011A8  4E75                     192      RTS
-000011AA                           193  
-000011AA                           194  
-000011AA                           195  HEAL_ROOM:                      ;HEALTH PICKUP
-000011AA  43F9 00001594            196      LEA     HEAL_MSG,A1         ;WE NEVER ENCOUNTER THIS ? - FIX 
-000011B0  103C 000E                197      MOVE.B  #14,D0        
-000011B4  4E4F                     198      TRAP    #15
-000011B6  0639 0014 0000134A       199      ADD.B   #20,HEALTH
-000011BE  4E75                     200      RTS
-000011C0                           201      
-000011C0                           202  POWER_ROOM:                      ;HEALTH PICKUP
-000011C0  43F9 000015BB            203      LEA     POWER_MSG,A1         ;WE NEVER ENCOUNTER THIS ? - FIX 
-000011C6  103C 000E                204      MOVE.B  #14,D0        
-000011CA  4E4F                     205      TRAP    #15
-000011CC  0639 0014 0000134B       206      ADD.B   #20,POWER
-000011D4  4E75                     207      RTS    
-000011D6                           208      
-000011D6                           209      
-000011D6                           210  SAFE_ROOM:
-000011D6  43F9 00001543            211      LEA     SAFE_MSG,A1
-000011DC  103C 000E                212      MOVE.B  #14,D0
-000011E0  4E4F                     213      TRAP    #15
-000011E2  4E75                     214      RTS
-000011E4                           215  
-000011E4                           216  *-------------------------------------------------------
-000011E4                           217  *----------------MOVE------------------
-000011E4                           218  *------------------------------------------------------- 
-000011E4                           219  MOVE:
-000011E4  43F9 000016DE            220      LEA     DIR_MSG,A1
-000011EA  103C 000E                221      MOVE.B  #14,D0
-000011EE  4E4F                     222      TRAP    #15
-000011F0                           223  
-000011F0                           224  CHOICE_VALID:    
-000011F0  103C 0004                225      MOVE.B  #4,D0
-000011F4  4E4F                     226      TRAP    #15 
-000011F6                           227  
-000011F6  B23C 0001                228      CMP.B   #1,D1
-000011FA  6D00 0018                229      BLT     RANGE         ; IF< 1 , AGAIN
-000011FE                           230  
-000011FE  B23C 0002                231      CMP.B   #2,D1
-00001202  6E00 0010                232      BGT     RANGE        ;IF > 2 , AGAIN
-00001206                           233  
-00001206  13C1 0000134D            234      MOVE.B  D1,CHOICE       ; SAVE CHOICE
-0000120C  5239 0000134C            235      ADD.B   #1,ROOM_NUM        ; ADD 1 TO ROOM - MOVE TO NEXT RIOM 
-00001212  4E75                     236      RTS
-00001214                           237  
-00001214                           238  
-00001214                           239  RANGE:
-00001214  43F9 0000182D            240      LEA     RANGE_MSG,A1
-0000121A  103C 000E                241      MOVE.B  #14,D0
-0000121E  4E4F                     242      TRAP    #15
-00001220  60CE                     243      BRA     CHOICE_VALID
-00001222                           244  *-------------------------------------------------------
-00001222                           245  *-----------------EVENTS - DAMAGE/HEAL/RIDDLE)--------------
-00001222                           246  *------------------------------------------------------- 
-00001222                           247  ENEMY:
-00001222  43F9 00001710            248      LEA     WAMPA_MSG,A1
-00001228  103C 000E                249      MOVE.B  #14,D0
-0000122C  4E4F                     250      TRAP    #15
-0000122E                           251                              ;NEED POWER DEFEAT WAMPA
-0000122E  1239 0000134B            252      MOVE.B  POWER,D1
-00001234  B23C 0046                253      CMP.B   #70,D1          ;COMPARE 70(NEEDED POWER) TO PLAYER POWER
-00001238  6D00 0038                254      BLT     TAKE_DAMAGE     ; IF POWERR < 70, TAKE DAMAGE, ELSE NO DAMAGE &&
-0000123C  43F9 00001745            255      LEA     WIN_WAMPA,A1          ;LOAD MESSAGE ADD INTO A1
-00001242  103C 000E                256      MOVE.B  #14,D0          ;MOVE 14 TO D0 FOR PRINTING
-00001246  4E4F                     257      TRAP    #15             ;PRINT WIN MESSAGE
-00001248  4E75                     258      RTS                     ;RETURN TO SENDER 
-0000124A                           259      
-0000124A                           260  ENEMY2:
-0000124A  43F9 00001792            261      LEA     WOOKIE_MSG,A1
-00001250  103C 000E                262      MOVE.B  #14,D0
-00001254  4E4F                     263      TRAP    #15
-00001256                           264                              ;NEED POWER DEFEAT WAMPA
-00001256  1239 0000134B            265      MOVE.B  POWER,D1
-0000125C  B23C 0032                266      CMP.B   #50,D1          ;COMPARE 70(NEEDED POWER) TO PLAYER POWER
-00001260  6D00 0010                267      BLT     TAKE_DAMAGE     ; IF POWERR < 70, TAKE DAMAGE, ELSE NO DAMAGE &&
-00001264  43F9 000017D2            268      LEA     WIN_WOOKIE,A1          ;LOAD MESSAGE ADD INTO A1
-0000126A  103C 000E                269      MOVE.B  #14,D0          ;MOVE 14 TO D0 FOR PRINTING
-0000126E  4E4F                     270      TRAP    #15             ;PRINT WIN MESSAGE
-00001270  4E75                     271      RTS                     ;RETURN TO SENDER
-00001272                           272  
-00001272                           273  TAKE_DAMAGE:
-00001272  43F9 0000175F            274      LEA     HURT_MSG,A1
-00001278  103C 000E                275      MOVE.B  #14,D0
-0000127C  4E4F                     276      TRAP    #15
-0000127E  0439 0032 0000134A       277      SUB.B   #50,HEALTH
-00001286  4E75                     278      RTS
-00001288                           279  
-00001288                           280  RIDDLE:                     ;RIDDLE ROOM 
-00001288  43F9 0000160D            281      LEA     RIDDLE_MSG,A1
-0000128E  103C 000E                282      MOVE.B  #14,D0
-00001292  4E4F                     283      TRAP    #15
-00001294  103C 0004                284      MOVE.B  #4,D0              
-00001298  4E4F                     285      TRAP    #15
-0000129A  B23C 0002                286      CMP.B   #2,D1              ; SHUD BE 2 - I HAD 2 INSTEAD OF 4 TRAP  
-0000129E  6600 0004                287      BNE     RIDDLE_FAIL
-000012A2  4E75                     288      RTS
-000012A4                           289      
-000012A4                           290  RIDDLE_FAIL:
-000012A4  43F9 00001649            291      LEA     FAIL_MSG,A1        ;LOAD FAIL MESSAGE ADD INTO A1 
-000012AA  103C 000E                292      MOVE.B  #14,D0             ; FOR PRINT WHATS IN A1
-000012AE  4E4F                     293      TRAP    #15                ;PRINT 
-000012B0  0439 000A 0000134A       294      SUB.B   #10,HEALTH         ;SUB 10 FROM HEALTH 
-000012B8  60CE                     295      BRA     RIDDLE             ;LOOP IF TILL CORRECT - FIX- AS SOON AS HEALTH = 0 SHUD STOP
-000012BA                           296      
-000012BA                           297      
-000012BA                           298  RIDDLE2:                     ;RIDDLE ROOM 
-000012BA  43F9 00001672            299      LEA     RIDDLE2_MSG,A1
-000012C0  103C 000E                300      MOVE.B  #14,D0
-000012C4  4E4F                     301      TRAP    #15
-000012C6  103C 0004                302      MOVE.B  #4,D0              
-000012CA  4E4F                     303      TRAP    #15
-000012CC  B23C 0002                304      CMP.B   #2,D1              ; SHUD BE 2 - I HAD 2 INSTEAD OF 4 TRAP  
-000012D0  6600 0004                305      BNE     RIDDLE2_FAIL
-000012D4  4E75                     306      RTS
-000012D6                           307      
-000012D6                           308  RIDDLE2_FAIL:
-000012D6  43F9 000016B5            309      LEA     FAIL2_MSG,A1        ;LOAD FAIL MESSAGE ADD INTO A1 
-000012DC  103C 000E                310      MOVE.B  #14,D0             ; FOR PRINT WHATS IN A1
-000012E0  4E4F                     311      TRAP    #15                ;PRINT 
-000012E2  0439 000A 0000134A       312      SUB.B   #10,HEALTH         ;SUB 10 FROM HEALTH 
-000012EA  609C                     313      BRA     RIDDLE             ;LOOP IF TILL CORRECT - FIX- AS SOON AS HEALTH = 0 SHUD STOP
-000012EC                           314  
-000012EC                           315  
-000012EC                           316  *-------------------------------------------------------
-000012EC                           317  *---------HEADS UP DISPLAY + STATUS --------------------
-000012EC                           318  *------------------------------------------------------- 
-000012EC                           319  DISPLAY_HUD:
-000012EC  43F9 00001496            320      LEA     HUD_LINE,A1        ;PRINTS LINE FOR READABLILITY 
-000012F2  103C 000E                321      MOVE.B  #14,D0             ;MOVE 14 INTO DO FOR PRINTING STRING
-000012F6  4E4F                     322      TRAP    #15                ;PRINTS HUD LINE
-000012F8                           323      
-000012F8                           324                                  
-000012F8  43F9 000014C3            325      LEA     ROOM_MSG,A1         ;PRINTING ROOM + HEALTH 
-000012FE  103C 000E                326      MOVE.B  #14,D0
-00001302  4E4F                     327      TRAP    #15
-00001304  1239 0000134C            328      MOVE.B  ROOM_NUM,D1
-0000130A  103C 0003                329      MOVE.B  #3,D0
-0000130E  4E4F                     330      TRAP    #15
-00001310                           331  
-00001310                           332  
-00001310  43F9 000014CA            333      LEA     HEALTH_MSG,A1
-00001316  103C 000E                334      MOVE.B  #14,D0
-0000131A  4E4F                     335      TRAP    #15
-0000131C  1239 0000134A            336      MOVE.B  HEALTH,D1 
-00001322  103C 0003                337      MOVE.B  #3,D0
-00001326  4E4F                     338      TRAP    #15
-00001328  4E75                     339      RTS
-0000132A                           340  *-------------------------------------------------------
-0000132A                           341  *----------------WIN/DEAD-------------------------------
-0000132A                           342  *------------------------------------------------------- 
-0000132A                           343  WIN:
-0000132A  43F9 00001849            344      LEA     WIN_MSG,A1
-00001330  103C 000E                345      MOVE.B  #14,D0
-00001334  4E4F                     346      TRAP    #15
-00001336  FFFF FFFF                347      SIMHALT        ;STOP IF WIN/DEAD
-0000133A                           348  
-0000133A                           349  DEAD:
-0000133A  43F9 000018AC            350      LEA     DEAD_MSG,A1
-00001340  103C 000E                351      MOVE.B  #14,D0
-00001344  4E4F                     352      TRAP    #15
-00001346  FFFF FFFF                353      SIMHALT
-0000134A                           354  
-0000134A                           355  *-------------------------------------------------------
-0000134A                           356  *-------------------DATA DECLARATIONS--------------------
-0000134A                           357  *-------------------------------------------------------
-0000134A                           358   
-0000134A= 00                       359  HEALTH:     DC.B    0
-0000134B= 00                       360  POWER:      DC.B    0
-0000134C= 00                       361  ROOM_NUM:   DC.B    0
-0000134D= 00                       362  CHOICE:     DC.B    0
-0000134E                           363  
-0000134E= 0D 0A 00                 364  CRLF:       DC.B    $0D,$0A,0
-00001351= 2D 2D 2D 2D 2D 2D ...    365  INTRO:      DC.B    '-----------------------------------------------'
-00001380= 0D 0A                    366              DC.B    $0D,$0A
-00001382= 57 45 4C 43 4F 4D ...    367              DC.B    'WELCOME TO THE STAR WARS UNIVERSE! '
-000013A5= 0D 0A                    368              DC.B    $0D,$0A
-000013A7= 49 54 53 20 54 49 ...    369              DC.B    'ITS TIME TO EXPLORE AND FACE THE FORCE IN '
-000013D1= 0D 0A                    370              DC.B    $0D,$0A
-000013D3= 2D 2D 2D 20 53 54 ...    371              DC.B    '--- STAR WARS: THE ICE CAVES OF ILUM ---'
-000013FB= 0D 0A                    372              DC.B    $0D,$0A
-000013FD= 43 48 4F 4F 53 45 ...    373              DC.B    'CHOOSE YOUR PATHS AND ALEGENCE CAREFULLY!!:'
-00001428= 0D 0A                    374              DC.B    $0D,$0A
-0000142A= 2D 2D 2D 2D 2D 2D ...    375              DC.B    '-----------------------------------------------'
-00001459= 0D 0A 00                 376              DC.B    $0D,$0A,0
-0000145C                           377                      
-0000145C= 43 68 6F 6F 73 65 ...    378  CHAR_MSG:   DC.B    'Choose Path: 1. Jedi (High HP) | 2. Sith (High Power): ', $0D,$0A,0
-00001496= 4F 4E 57 41 52 44        379  HUD_LINE:   DC.B    'ONWARD'
-0000149C= 0D 0A                    380              DC.B    $0D,$0A
-0000149E= 2D 2D 2D 2D 2D 2D ...    381              DC.B    '----------------------------------' 
-000014C0= 0D 0A 00                 382              DC.B    $0D,$0A,0
-000014C3= 52 4F 4F 4D 3A 20 00     383  ROOM_MSG:   DC.B    'ROOM: ',0
-000014CA= 20 7C 20 48 45 41 ...    384  HEALTH_MSG: DC.B    ' | HEALTH: ',0
-000014D6= 50 72 65 73 73 20 ...    385  MOVE_MSG:   DC.B    'Press any key to venture into the cave: ', $0D,$0A,0 ;needs an input added 
-00001501= 49 74 20 61 70 70 ...    386  ENTER_MSG:  DC.B    'It appears that there is a many rooms ahead!'
-0000152D= 0D 0A                    387              DC.B    $0D,$0A
-0000152F= 54 69 6D 65 20 74 ...    388              DC.B    'Time to explore!!', $0D,$0A, 0
-00001543                           389  
-00001543= 0D 0A 54 68 69 73 ...    390  SAFE_MSG:   DC.B    $0D,$0A,'This path seems to be quiet.... for now', $0D,$0A, 0
-0000156F= 0D 0A 53 41 4E 44 ...    391  TRAP_MSG:   DC.B    $0D,$0A,'SAND!! YOU HATE SAND -50 HEALTH.', $0D,$0A,0
-00001594= 0D 0A 59 6F 75 20 ...    392  HEAL_MSG:   DC.B    $0D,$0A,'You found some bacta!. Health +20!', $0D,$0A,0
-000015BB= 0D 0A 59 6F 75 20 ...    393  POWER_MSG:  DC.B    $0D,$0A,'You found a holocron. Power +20!', $0D,$0A,0
-000015E0= 0D 0A 54 52 49 50 ...    394  POSION_MSG: DC.B    $0D,$0A,'TRIPWIRE! YOU GOT HIT WITH A POSION DART', $0D,$0A,0
-0000160D= 0D 0A 52 49 44 44 ...    395  RIDDLE_MSG: DC.B    $0D,$0A,'RIDDLE: How many Suns does Tatooine have? (Hint: 1+1): ', $0D,$0A,0
-00001649= 0D 0A 57 52 4F 4E ...    396  FAIL_MSG:   DC.B    $0D,$0A,'WRONG. The Force repels you. -10 HP.', $0D,$0A,0
-00001672= 0D 0A 52 49 44 44 ...    397  RIDDLE2_MSG: DC.B    $0D,$0A,'RIDDLE: How many DEATH STARS were built? (Hint: 1+7-3+1-4-1): ', $0D,$0A,0
-000016B5= 0D 0A 57 52 4F 4E ...    398  FAIL2_MSG:   DC.B    $0D,$0A,'WRONG. The Force repels you. -10 HP.', $0D,$0A,0
-000016DE= 0D 0A 20 54 48 45 ...    399  DIR_MSG:    DC.B    $0D,$0A,' THE PATH SPLITS - 1: Go Left | 2: Go Right: ', $0D,$0A,0
-00001710= 0D 0A 41 20 57 41 ...    400  WAMPA_MSG:  DC.B    $0D,$0A,'A WAMPA ATTACKS! You need 70 Power to defeat it!', $0D,$0A, 0
-00001745= 0D 0A 59 6F 75 20 ...    401  WIN_WAMPA:  DC.B    $0D,$0A,'You Cut its arm off!!', $0D,$0A, 0
-0000175F= 0D 0A 59 4F 55 20 ...    402  HURT_MSG:   DC.B    $0D,$0A,'YOU NEED MORE POWER! THE WAMPA ATTACKS! -50 HP', $0D,$0A, 0
-00001792= 0D 0A 49 54 53 20 ...    403  WOOKIE_MSG:  DC.B    $0D,$0A,'ITS THE ABOMINABLE WOOKIE!! You need 50 Power to defeat it!', $0D,$0A, 0
-000017D2= 0D 0A 59 6F 75 20 ...    404  WIN_WOOKIE:  DC.B    $0D,$0A,'You aquired a new rug!!', $0D,$0A, 0
-000017EE= 0D 0A 59 4F 55 20 ...    405  HURT2_MSG:   DC.B    $0D,$0A,'YOU NEED MORE POWER! THE WOOKIE STEALS YOUR JACKET! -50 HP', $0D,$0A, 0
-0000182D                           406  
-0000182D= 0D 0A 49 6E 76 61 ...    407  RANGE_MSG: DC.B $0D,$0A,'Invalid choice! 1 or 2.', $0D,$0A,0
-00001849= 43 4F 4E 47 52 41 ...    408  WIN_MSG:    DC.B    'CONGRATULATOINS!! You have found the Kyber Crystal!'
-0000187C= 0D 0A                    409              DC.B    $0D,$0A
-0000187E= 59 6F 75 20 61 72 ...    410              DC.B    'You are now ready to bulit your lightsaber!', $0D,$0A, 0
-000018AC= 59 6F 75 20 68 61 ...    411  DEAD_MSG:   DC.B    'You have become one with the Force', $0D,$0A,0
-000018D1                           412  
-000018D1                           413      END START
+00001174                           175      
+00001174                           176  ;---------------- ROOM 9 ---------------- 
+00001174                           177  CHECK_ROOM_9:
+00001174  B23C 0009                178      CMP.B #9,D1
+00001178  6600 0014                179      BNE CHECK_ROOM_10
+0000117C  0C39 0001 00001371       180      CMP.B #1,CHOICE
+00001184  6700 0014                181      BEQ TRAP_ROOM
+00001188  6100 0026                182      BSR POSION_ROOM
+0000118C  4E75                     183      RTS
+0000118E                           184      
+0000118E                           185  ;---------------- ROOM 10 ---------------- 
+0000118E                           186  CHECK_ROOM_10:
+0000118E  B23C 000A                187      CMP.B #10,D1
+00001192  6600 0004                188      BNE ROOMS_END
+00001196  4E75                     189      RTS
+00001198                           190  
+00001198                           191  ROOMS_END:
+00001198  4E75                     192      RTS
+0000119A                           193      
+0000119A                           194      
+0000119A                           195  *-------------------------------------------------------
+0000119A                           196  *----------------ROOM STATS -------------------------
+0000119A                           197  *------------------------------------------------------- 
+0000119A                           198      
+0000119A                           199  TRAP_ROOM:                  ;FOR TRAP
+0000119A  43F9 00001593            200      LEA     TRAP_MSG,A1   
+000011A0  103C 000E                201      MOVE.B  #14,D0
+000011A4  4E4F                     202      TRAP    #15
+000011A6  0439 0014 0000136E       203      SUB.B   #20,HEALTH         
+000011AE  4E75                     204      RTS
+000011B0                           205      
+000011B0                           206  POSION_ROOM:                  ;FOR TRAP
+000011B0  43F9 00001604            207      LEA     POSION_MSG,A1   
+000011B6  103C 000E                208      MOVE.B  #14,D0
+000011BA  4E4F                     209      TRAP    #15
+000011BC  0439 0014 0000136E       210      SUB.B   #20,HEALTH 
+000011C4  0439 000A 0000136F       211      SUB.B   #10,POWER        
+000011CC  4E75                     212      RTS
+000011CE                           213  
+000011CE                           214  
+000011CE                           215  HEAL_ROOM:                      ;HEALTH PICKUP
+000011CE  43F9 000015B8            216      LEA     HEAL_MSG,A1         ;WE NEVER ENCOUNTER THIS ? - FIX 
+000011D4  103C 000E                217      MOVE.B  #14,D0        
+000011D8  4E4F                     218      TRAP    #15
+000011DA  0639 0014 0000136E       219      ADD.B   #20,HEALTH
+000011E2  4E75                     220      RTS
+000011E4                           221      
+000011E4                           222  POWER_ROOM:                      ;HEALTH PICKUP
+000011E4  43F9 000015DF            223      LEA     POWER_MSG,A1         ;WE NEVER ENCOUNTER THIS ? - FIX 
+000011EA  103C 000E                224      MOVE.B  #14,D0        
+000011EE  4E4F                     225      TRAP    #15
+000011F0  0639 0014 0000136F       226      ADD.B   #20,POWER
+000011F8  4E75                     227      RTS    
+000011FA                           228      
+000011FA                           229      
+000011FA                           230  SAFE_ROOM:
+000011FA  43F9 00001567            231      LEA     SAFE_MSG,A1
+00001200  103C 000E                232      MOVE.B  #14,D0
+00001204  4E4F                     233      TRAP    #15
+00001206  4E75                     234      RTS
+00001208                           235  
+00001208                           236  *-------------------------------------------------------
+00001208                           237  *----------------MOVE------------------
+00001208                           238  *------------------------------------------------------- 
+00001208                           239  MOVE:
+00001208  43F9 00001702            240      LEA     DIR_MSG,A1
+0000120E  103C 000E                241      MOVE.B  #14,D0
+00001212  4E4F                     242      TRAP    #15
+00001214                           243  
+00001214                           244  CHOICE_VALID:    
+00001214  103C 0004                245      MOVE.B  #4,D0
+00001218  4E4F                     246      TRAP    #15 
+0000121A                           247  
+0000121A  B23C 0001                248      CMP.B   #1,D1
+0000121E  6D00 0018                249      BLT     RANGE         ; IF< 1 , AGAIN
+00001222                           250  
+00001222  B23C 0002                251      CMP.B   #2,D1
+00001226  6E00 0010                252      BGT     RANGE        ;IF > 2 , AGAIN
+0000122A                           253  
+0000122A  13C1 00001371            254      MOVE.B  D1,CHOICE       ; SAVE CHOICE FOR NEXT ROOM
+00001230  5239 00001370            255      ADD.B   #1,ROOM_NUM        ; ADD 1 TO ROOM - MOVE TO NEXT RIOM 
+00001236  4E75                     256      RTS
+00001238                           257  
+00001238                           258  
+00001238                           259  RANGE:
+00001238  43F9 00001851            260      LEA     RANGE_MSG,A1
+0000123E  103C 000E                261      MOVE.B  #14,D0
+00001242  4E4F                     262      TRAP    #15
+00001244  60CE                     263      BRA     CHOICE_VALID
+00001246                           264  *-------------------------------------------------------
+00001246                           265  *-----------------EVENTS - DAMAGE/HEAL/RIDDLE)--------------
+00001246                           266  *------------------------------------------------------- 
+00001246                           267  ENEMY:
+00001246  43F9 00001734            268      LEA     WAMPA_MSG,A1
+0000124C  103C 000E                269      MOVE.B  #14,D0
+00001250  4E4F                     270      TRAP    #15
+00001252                           271                              ;NEED POWER DEFEAT WAMPA
+00001252  1239 0000136F            272      MOVE.B  POWER,D1
+00001258  B23C 0046                273      CMP.B   #70,D1          ;COMPARE 70(NEEDED POWER) TO PLAYER POWER
+0000125C  6D00 0038                274      BLT     TAKE_DAMAGE     ; IF POWERR < 70, TAKE DAMAGE, ELSE NO DAMAGE &&
+00001260  43F9 00001769            275      LEA     WIN_WAMPA,A1          ;LOAD MESSAGE ADD INTO A1
+00001266  103C 000E                276      MOVE.B  #14,D0          ;MOVE 14 TO D0 FOR PRINTING
+0000126A  4E4F                     277      TRAP    #15             ;PRINT WIN MESSAGE
+0000126C  4E75                     278      RTS                     ;RETURN TO SENDER 
+0000126E                           279      
+0000126E                           280  ENEMY2:
+0000126E  43F9 000017B6            281      LEA     WOOKIE_MSG,A1
+00001274  103C 000E                282      MOVE.B  #14,D0
+00001278  4E4F                     283      TRAP    #15
+0000127A                           284                              ;NEED POWER DEFEAT WAMPA
+0000127A  1239 0000136F            285      MOVE.B  POWER,D1
+00001280  B23C 0032                286      CMP.B   #50,D1          ;COMPARE 70(NEEDED POWER) TO PLAYER POWER
+00001284  6D00 0010                287      BLT     TAKE_DAMAGE     ; IF POWERR < 70, TAKE DAMAGE, ELSE NO DAMAGE &&
+00001288  43F9 000017F6            288      LEA     WIN_WOOKIE,A1          ;LOAD MESSAGE ADD INTO A1
+0000128E  103C 000E                289      MOVE.B  #14,D0          ;MOVE 14 TO D0 FOR PRINTING
+00001292  4E4F                     290      TRAP    #15             ;PRINT WIN MESSAGE
+00001294  4E75                     291      RTS                     ;RETURN TO SENDER
+00001296                           292  
+00001296                           293  TAKE_DAMAGE:
+00001296  43F9 00001783            294      LEA     HURT_MSG,A1
+0000129C  103C 000E                295      MOVE.B  #14,D0
+000012A0  4E4F                     296      TRAP    #15
+000012A2  0439 0032 0000136E       297      SUB.B   #50,HEALTH
+000012AA  4E75                     298      RTS
+000012AC                           299  
+000012AC                           300  RIDDLE:                     ;RIDDLE ROOM 
+000012AC  43F9 00001631            301      LEA     RIDDLE_MSG,A1
+000012B2  103C 000E                302      MOVE.B  #14,D0
+000012B6  4E4F                     303      TRAP    #15
+000012B8  103C 0004                304      MOVE.B  #4,D0              
+000012BC  4E4F                     305      TRAP    #15
+000012BE  B23C 0002                306      CMP.B   #2,D1              ; SHUD BE 2 - I HAD 2 INSTEAD OF 4 TRAP  
+000012C2  6600 0004                307      BNE     RIDDLE_FAIL
+000012C6  4E75                     308      RTS
+000012C8                           309      
+000012C8                           310  RIDDLE_FAIL:
+000012C8  43F9 0000166D            311      LEA     FAIL_MSG,A1        ;LOAD FAIL MESSAGE ADD INTO A1 
+000012CE  103C 000E                312      MOVE.B  #14,D0             ; FOR PRINT WHATS IN A1
+000012D2  4E4F                     313      TRAP    #15                ;PRINT 
+000012D4  0439 000A 0000136E       314      SUB.B   #10,HEALTH         ;SUB 10 FROM HEALTH 
+000012DC  60CE                     315      BRA     RIDDLE             ;LOOP IF TILL CORRECT - FIX- AS SOON AS HEALTH = 0 SHUD STOP
+000012DE                           316      
+000012DE                           317      
+000012DE                           318  RIDDLE2:                     ;RIDDLE ROOM 
+000012DE  43F9 00001696            319      LEA     RIDDLE2_MSG,A1
+000012E4  103C 000E                320      MOVE.B  #14,D0
+000012E8  4E4F                     321      TRAP    #15
+000012EA  103C 0004                322      MOVE.B  #4,D0              
+000012EE  4E4F                     323      TRAP    #15
+000012F0  B23C 0002                324      CMP.B   #2,D1              ; SHUD BE 2 - I HAD 2 INSTEAD OF 4 TRAP  
+000012F4  6600 0004                325      BNE     RIDDLE2_FAIL
+000012F8  4E75                     326      RTS
+000012FA                           327      
+000012FA                           328  RIDDLE2_FAIL:
+000012FA  43F9 000016D9            329      LEA     FAIL2_MSG,A1        ;LOAD FAIL MESSAGE ADD INTO A1 
+00001300  103C 000E                330      MOVE.B  #14,D0             ; FOR PRINT WHATS IN A1
+00001304  4E4F                     331      TRAP    #15                ;PRINT 
+00001306  0439 000A 0000136E       332      SUB.B   #10,HEALTH         ;SUB 10 FROM HEALTH 
+0000130E  609C                     333      BRA     RIDDLE             ;LOOP IF TILL CORRECT - FIX- AS SOON AS HEALTH = 0 SHUD STOP
+00001310                           334  
+00001310                           335  
+00001310                           336  *-------------------------------------------------------
+00001310                           337  *---------HEADS UP DISPLAY + STATUS --------------------
+00001310                           338  *------------------------------------------------------- 
+00001310                           339  DISPLAY_HUD:
+00001310  43F9 000014BA            340      LEA     HUD_LINE,A1        ;PRINTS LINE FOR READABLILITY 
+00001316  103C 000E                341      MOVE.B  #14,D0             ;MOVE 14 INTO DO FOR PRINTING STRING
+0000131A  4E4F                     342      TRAP    #15                ;PRINTS HUD LINE
+0000131C                           343      
+0000131C                           344                                  
+0000131C  43F9 000014E7            345      LEA     ROOM_MSG,A1         ;PRINTING ROOM + HEALTH 
+00001322  103C 000E                346      MOVE.B  #14,D0
+00001326  4E4F                     347      TRAP    #15
+00001328  1239 00001370            348      MOVE.B  ROOM_NUM,D1
+0000132E  103C 0003                349      MOVE.B  #3,D0
+00001332  4E4F                     350      TRAP    #15
+00001334                           351  
+00001334                           352  
+00001334  43F9 000014EE            353      LEA     HEALTH_MSG,A1
+0000133A  103C 000E                354      MOVE.B  #14,D0
+0000133E  4E4F                     355      TRAP    #15
+00001340  1239 0000136E            356      MOVE.B  HEALTH,D1 
+00001346  103C 0003                357      MOVE.B  #3,D0
+0000134A  4E4F                     358      TRAP    #15
+0000134C  4E75                     359      RTS
+0000134E                           360  *-------------------------------------------------------
+0000134E                           361  *----------------WIN/DEAD-------------------------------
+0000134E                           362  *------------------------------------------------------- 
+0000134E                           363  WIN:
+0000134E  43F9 0000186D            364      LEA     WIN_MSG,A1
+00001354  103C 000E                365      MOVE.B  #14,D0
+00001358  4E4F                     366      TRAP    #15
+0000135A  FFFF FFFF                367      SIMHALT        ;STOP IF WIN/DEAD
+0000135E                           368  
+0000135E                           369  DEAD:
+0000135E  43F9 000018D2            370      LEA     DEAD_MSG,A1
+00001364  103C 000E                371      MOVE.B  #14,D0
+00001368  4E4F                     372      TRAP    #15
+0000136A  FFFF FFFF                373      SIMHALT
+0000136E                           374  
+0000136E                           375  *-------------------------------------------------------
+0000136E                           376  *-------------------DATA DECLARATIONS--------------------
+0000136E                           377  *-------------------------------------------------------
+0000136E                           378   
+0000136E= 00                       379  HEALTH:     DC.B    0
+0000136F= 00                       380  POWER:      DC.B    0
+00001370= 00                       381  ROOM_NUM:   DC.B    0
+00001371= 00                       382  CHOICE:     DC.B    0
+00001372                           383  
+00001372= 0D 0A 00                 384  CRLF:       DC.B    $0D,$0A,0
+00001375= 2D 2D 2D 2D 2D 2D ...    385  INTRO:      DC.B    '-----------------------------------------------'
+000013A4= 0D 0A                    386              DC.B    $0D,$0A
+000013A6= 57 45 4C 43 4F 4D ...    387              DC.B    'WELCOME TO THE STAR WARS UNIVERSE! '
+000013C9= 0D 0A                    388              DC.B    $0D,$0A
+000013CB= 49 54 53 20 54 49 ...    389              DC.B    'ITS TIME TO EXPLORE AND FACE THE FORCE IN '
+000013F5= 0D 0A                    390              DC.B    $0D,$0A
+000013F7= 2D 2D 2D 20 53 54 ...    391              DC.B    '--- STAR WARS: THE ICE CAVES OF ILUM ---'
+0000141F= 0D 0A                    392              DC.B    $0D,$0A
+00001421= 43 48 4F 4F 53 45 ...    393              DC.B    'CHOOSE YOUR PATHS AND ALEGENCE CAREFULLY!!:'
+0000144C= 0D 0A                    394              DC.B    $0D,$0A
+0000144E= 2D 2D 2D 2D 2D 2D ...    395              DC.B    '-----------------------------------------------'
+0000147D= 0D 0A 00                 396              DC.B    $0D,$0A,0
+00001480                           397                      
+00001480= 43 68 6F 6F 73 65 ...    398  CHAR_MSG:   DC.B    'Choose Path: 1. Jedi (High HP) | 2. Sith (High Power): ', $0D,$0A,0
+000014BA= 4F 4E 57 41 52 44        399  HUD_LINE:   DC.B    'ONWARD'
+000014C0= 0D 0A                    400              DC.B    $0D,$0A
+000014C2= 2D 2D 2D 2D 2D 2D ...    401              DC.B    '----------------------------------' 
+000014E4= 0D 0A 00                 402              DC.B    $0D,$0A,0
+000014E7= 52 4F 4F 4D 3A 20 00     403  ROOM_MSG:   DC.B    'ROOM: ',0
+000014EE= 20 7C 20 48 45 41 ...    404  HEALTH_MSG: DC.B    ' | HEALTH: ',0
+000014FA= 50 72 65 73 73 20 ...    405  MOVE_MSG:   DC.B    'Press any key to venture into the cave: ', $0D,$0A,0 ;needs an input added 
+00001525= 49 74 20 61 70 70 ...    406  ENTER_MSG:  DC.B    'It appears that there is a many rooms ahead!'
+00001551= 0D 0A                    407              DC.B    $0D,$0A
+00001553= 54 69 6D 65 20 74 ...    408              DC.B    'Time to explore!!', $0D,$0A, 0
+00001567                           409  
+00001567= 0D 0A 54 68 69 73 ...    410  SAFE_MSG:   DC.B    $0D,$0A,'This path seems to be quiet.... for now', $0D,$0A, 0
+00001593= 0D 0A 53 41 4E 44 ...    411  TRAP_MSG:   DC.B    $0D,$0A,'SAND!! YOU HATE SAND -50 HEALTH.', $0D,$0A,0
+000015B8= 0D 0A 59 6F 75 20 ...    412  HEAL_MSG:   DC.B    $0D,$0A,'You found some bacta!. Health +20!', $0D,$0A,0
+000015DF= 0D 0A 59 6F 75 20 ...    413  POWER_MSG:  DC.B    $0D,$0A,'You found a holocron. Power +20!', $0D,$0A,0
+00001604= 0D 0A 54 52 49 50 ...    414  POSION_MSG: DC.B    $0D,$0A,'TRIPWIRE! YOU GOT HIT WITH A POSION DART', $0D,$0A,0
+00001631= 0D 0A 52 49 44 44 ...    415  RIDDLE_MSG: DC.B    $0D,$0A,'RIDDLE: How many Suns does Tatooine have? (Hint: 1+1): ', $0D,$0A,0
+0000166D= 0D 0A 57 52 4F 4E ...    416  FAIL_MSG:   DC.B    $0D,$0A,'WRONG. The Force repels you. -10 HP.', $0D,$0A,0
+00001696= 0D 0A 52 49 44 44 ...    417  RIDDLE2_MSG: DC.B    $0D,$0A,'RIDDLE: How many DEATH STARS were built? (Hint: 1+7-3+1-4-1): ', $0D,$0A,0
+000016D9= 0D 0A 57 52 4F 4E ...    418  FAIL2_MSG:   DC.B    $0D,$0A,'WRONG. The Force repels you. -10 HP.', $0D,$0A,0
+00001702= 0D 0A 20 54 48 45 ...    419  DIR_MSG:    DC.B    $0D,$0A,' THE PATH SPLITS - 1: Go Left | 2: Go Right: ', $0D,$0A,0
+00001734= 0D 0A 41 20 57 41 ...    420  WAMPA_MSG:  DC.B    $0D,$0A,'A WAMPA ATTACKS! You need 70 Power to defeat it!', $0D,$0A, 0
+00001769= 0D 0A 59 6F 75 20 ...    421  WIN_WAMPA:  DC.B    $0D,$0A,'You Cut its arm off!!', $0D,$0A, 0
+00001783= 0D 0A 59 4F 55 20 ...    422  HURT_MSG:   DC.B    $0D,$0A,'YOU NEED MORE POWER! THE WAMPA ATTACKS! -50 HP', $0D,$0A, 0
+000017B6= 0D 0A 49 54 53 20 ...    423  WOOKIE_MSG:  DC.B    $0D,$0A,'ITS THE ABOMINABLE WOOKIE!! You need 50 Power to defeat it!', $0D,$0A, 0
+000017F6= 0D 0A 59 6F 75 20 ...    424  WIN_WOOKIE:  DC.B    $0D,$0A,'You aquired a new rug!!', $0D,$0A, 0
+00001812= 0D 0A 59 4F 55 20 ...    425  HURT2_MSG:   DC.B    $0D,$0A,'YOU NEED MORE POWER! THE WOOKIE STEALS YOUR JACKET! -50 HP', $0D,$0A, 0
+00001851                           426  
+00001851= 0D 0A 49 6E 76 61 ...    427  RANGE_MSG:  DC.B $0D,$0A,'Invalid choice! 1 or 2.', $0D,$0A,0
+0000186D= 0D 0A 43 4F 4E 47 ...    428  WIN_MSG:    DC.B $0D,$0A,'CONGRATULATOINS!! You have found the Kyber Crystal!'
+000018A2= 0D 0A                    429              DC.B    $0D,$0A
+000018A4= 59 6F 75 20 61 72 ...    430              DC.B    'You are now ready to bulit your lightsaber!', $0D,$0A, 0
+000018D2= 59 6F 75 20 68 61 ...    431  DEAD_MSG:   DC.B    'You have become one with the Force', $0D,$0A,0
+000018F7                           432  
+000018F7                           433      END START
 
 No errors detected
 No warnings generated
@@ -424,7 +444,8 @@ SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
 CHARACTER           103A
-CHAR_MSG            145C
+CHAR_MSG            1480
+CHECK_ROOM_10       118E
 CHECK_ROOM_2        10BE
 CHECK_ROOM_3        10D8
 CHECK_ROOM_4        10F2
@@ -432,61 +453,62 @@ CHECK_ROOM_5        110C
 CHECK_ROOM_6        1126
 CHECK_ROOM_7        1140
 CHECK_ROOM_8        115A
-CHOICE              134D
-CHOICE_VALID        11F0
-CRLF                134E
-DEAD                133A
-DEAD_MSG            18AC
-DIR_MSG             16DE
-DISPLAY_HUD         12EC
+CHECK_ROOM_9        1174
+CHOICE              1371
+CHOICE_VALID        1214
+CRLF                1372
+DEAD                135E
+DEAD_MSG            18D2
+DIR_MSG             1702
+DISPLAY_HUD         1310
 END                 1028
-ENEMY               1222
-ENEMY2              124A
-ENTER_MSG           1501
+ENEMY               1246
+ENEMY2              126E
+ENTER_MSG           1525
 EXIT                0
-FAIL2_MSG           16B5
-FAIL_MSG            1649
+FAIL2_MSG           16D9
+FAIL_MSG            166D
 GAME                1022
 GAME_LOOP           1078
-HEALTH              134A
-HEALTH_MSG          14CA
-HEAL_MSG            1594
-HEAL_ROOM           11AA
-HUD_LINE            1496
-HURT2_MSG           17EE
-HURT_MSG            175F
-INTRO               1351
+HEALTH              136E
+HEALTH_MSG          14EE
+HEAL_MSG            15B8
+HEAL_ROOM           11CE
+HUD_LINE            14BA
+HURT2_MSG           1812
+HURT_MSG            1783
+INTRO               1375
 JEDI                1066
-MOVE                11E4
-MOVE_MSG            14D6
-POSION_MSG          15E0
-POSION_ROOM         118C
-POWER               134B
-POWER_MSG           15BB
-POWER_ROOM          11C0
-RANGE               1214
-RANGE_MSG           182D
-RIDDLE              1288
-RIDDLE2             12BA
-RIDDLE2_FAIL        12D6
-RIDDLE2_MSG         1672
-RIDDLE_FAIL         12A4
-RIDDLE_MSG          160D
+MOVE                1208
+MOVE_MSG            14FA
+POSION_MSG          1604
+POSION_ROOM         11B0
+POWER               136F
+POWER_MSG           15DF
+POWER_ROOM          11E4
+RANGE               1238
+RANGE_MSG           1851
+RIDDLE              12AC
+RIDDLE2             12DE
+RIDDLE2_FAIL        12FA
+RIDDLE2_MSG         1696
+RIDDLE_FAIL         12C8
+RIDDLE_MSG          1631
 ROOMS               10A2
-ROOMS_END           1174
-ROOM_MSG            14C3
-ROOM_NUM            134C
-SAFE_MSG            1543
-SAFE_ROOM           11D6
+ROOMS_END           1198
+ROOM_MSG            14E7
+ROOM_NUM            1370
+SAFE_MSG            1567
+SAFE_ROOM           11FA
 SITH                1054
 START               1000
-TAKE_DAMAGE         1272
-TRAP_MSG            156F
-TRAP_ROOM           1176
-WAMPA_MSG           1710
+TAKE_DAMAGE         1296
+TRAP_MSG            1593
+TRAP_ROOM           119A
+WAMPA_MSG           1734
 WELCOME             102C
-WIN                 132A
-WIN_MSG             1849
-WIN_WAMPA           1745
-WIN_WOOKIE          17D2
-WOOKIE_MSG          1792
+WIN                 134E
+WIN_MSG             186D
+WIN_WAMPA           1769
+WIN_WOOKIE          17F6
+WOOKIE_MSG          17B6
