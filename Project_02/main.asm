@@ -30,16 +30,17 @@ add_func:
 ;reg pass adding - needs to b called 
 add_reg:
     mov rax, rdi      ; first parameter
-    add rax, rsi      ; second parameter
+    add rax, rsi      ; add first and second
     ret
 
 main:
     push rbp
     mov rbp, rsp
-
-    mov rbx, 0        ; total sum (D3 in 68k)
-    mov rcx, 3        ; loop count (D4 in 68k)
-
+    push r15          ; save r15 -use it for counter
+    push rbx          ;save rbx for total
+    mov rbx, 0        ;total sum (D3 in 68k)
+    mov r15, 3        ; loop count- used r15 instead of rcx (D4 in 68k)
+                     ;rcx gets clobbered by printf/scanf cant use
 GAME_LOOP:
 
     ; ask for first num
@@ -53,23 +54,37 @@ GAME_LOOP:
     call scanf
 
     cmp rax, 1
-    jne input_invalid     ; if input fails
+    jne input_invalid     ; if not num
 
-    ; ask for second number
+    ;check range 
+    mov eax, [x]         ;copy x inot eax
+    cmp eax , 1
+    jl input_invalid     ; if less then jump to invalid 
+    cmp eax, 10000
+    jg input_invalid      ;if greater then 10000 jump to invalid
+   
+    ;ask for second number
     lea rdi, [rel ask_input]
     mov rax, 0
     call printf
 
-    lea rdi, [rel input_format] ;
+    lea rdi, [rel input_format] 
     lea rsi, [rel y]
     mov rax, 0
     call scanf
 
     cmp rax, 1 ;compare to 1 
-    jne input_invalid ; if not equal go to invalid input 
+    jne input_invalid ; if not num go to invalid input 
 
-    mov rdi, [x]
-    mov rsi, [y]
+    ;check range of y 
+    mov eax, [y]
+    cmp eax, 1
+    jl input_invalid      ;if less then
+    cmp eax, 10000
+    jg input_invalid      ;if greater then 
+
+    mov edi, [x]     ;load x into edi instead of rdi - 32 bit
+    mov esi, [y]
     call add_reg 
 
     add rbx, rax      ; add to res total
@@ -81,8 +96,8 @@ GAME_LOOP:
     call printf
 
     ; loop logic
-    dec rcx   
-    cmp rcx, 0
+    dec r15            ; decrement counter (r15 is safe print doesnt break it)
+    cmp r15, 0
     jne GAME_LOOP
 
     ; final print
@@ -90,16 +105,18 @@ GAME_LOOP:
     lea rdi, [rel total_msg]
     mov rax, 0
     call printf
-
     jmp done ; jump to done
 
 input_invalid:
     ; if input invalid
     lea rdi, [rel error_msg]
-    mov rax, 0
+    xor rax, rax
     call printf
+    jmp GAME_LOOP           ;jump so rbx and r15 get popped 
 
 done:
+    pop rbx          ;restore rbx
+    pop r15          ; reset r15 
     mov rsp, rbp
     pop rbp
     ret
