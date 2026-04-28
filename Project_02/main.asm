@@ -1,4 +1,4 @@
-.global main
+global main
 extern printf ;use for print output
 extern scanf ;use to get input 
 
@@ -8,13 +8,13 @@ section .data  ;var section
     temp_res_msg db "The sum is: %d", 10, 0 ; 10 = newline , 0 = end of string
     total_msg db "Final sum is: %d", 10, 0
     error_msg db "Invalid input!", 10, 0   ; if input not num 
-    x db 0 ; first num , start at 0
-    y db 0
+    x dd 0 ; first num , start at 0
+    y dd 0
 
 
 section .text ; code part 
 
-; add usnig stack now rsp - sp
+; add usnig stack now rsp - sp- for show not used 
 add_func:
     push rbp
     mov rbp, rsp
@@ -22,10 +22,15 @@ add_func:
     ; get parametres from stack 
     mov rax, [rbp+16]     ; first num - 2nd pushed val 
     mov rdx, [rbp+24]     ; second num - first push val
-
     add rax, rdx          ; add vals, 
 
     pop rbp           ;pop
+    ret
+
+;reg pass adding - needs to b called 
+add_reg:
+    mov rax, rdi      ; first parameter
+    add rax, rsi      ; second parameter
     ret
 
 main:
@@ -38,12 +43,12 @@ main:
 GAME_LOOP:
 
     ; ask for first num
-    lea rdi, [rel ask_input]   ;load address of input into rdi - where is prompt ?
+    lea rdi, [rel ask_input]   ;load address of input into rdi 
     mov rax, 0
     call printf       ; call print or output
 
     lea rdi, [rel input_format]
-    lea rsi, [rel x]
+    lea rsi, [rel x]  ;rel is relative addressing - safer 
     mov rax, 0
     call scanf
 
@@ -63,16 +68,9 @@ GAME_LOOP:
     cmp rax, 1 ;compare to 1 
     jne input_invalid ; if not equal go to invalid input 
 
-    ; use stack for parameters now  
-    mov rax, [x]
-    push rax          ; push first number
-
-    mov rax, [y]
-    push rax          ; push second number
-
-    call add_func
-
-    add rsp, 16       ; ad 16 to sp , pops both pushed vals 
+    mov rdi, [x]
+    mov rsi, [y]
+    call add_reg 
 
     add rbx, rax      ; add to res total
 
