@@ -16,9 +16,9 @@ int validate_input(int *num)
         return 0;   // num invalid
     }
     // check num in range 
-    if (*num < 0 || *num > 1000)
+    if (*num < 1 || *num > 1000)
     {
-        printf("Number out of range! Enter between 0 and 1000.\n");
+        printf("Number out of range! Enter between 1 and 1000.\n");
         return 0;
     }
     return 1;   // number valid 

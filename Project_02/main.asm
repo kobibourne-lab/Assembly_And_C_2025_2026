@@ -1,4 +1,5 @@
-global main     
+global main
+global add_reg
 extern printf ;use for print output - 14 in 68k 
 extern scanf ;use to get input - 4 in 68k
 
