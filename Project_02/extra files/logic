@@ -1,0 +1,14 @@
+total = 0 //sum of all adds 
+i = 0 //loop counter 
+
+loop:
+if i < 3 // if loops less then 3 , enter 
+get a //ints
+get b
+result = add(a, b) //sum = result 
+total = total + result //
+print result //print a + b
+i++ // add iteration    
+print total // print all adds
+
+change registers from 68 (A1,D1) to 64(rax,rdi)
